@@ -1,252 +1,262 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useRouter } from "expo-router";
-import React from "react";
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
+import React, { useState } from 'react';
+import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const Drawer = createDrawerNavigator();
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
-function ProfileScreen() {
-  const user = {
-    name: "Not a cat",
-    email: "not_a_cat@gmail.com",
-    profilePic: require("../../Image/profile.gif"),
+export default function HomeScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate refresh delay
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   };
 
   return (
-    <View style={styles.profileContainer}>
-      <Image source={user.profilePic} style={styles.profile} />
-      <Text style={styles.name}>{user.name}</Text>
-      <Text style={styles.email}>{user.email}</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  const router = useRouter();
-
-  return (
-    <View style={styles.center}>
-      <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={() => router.replace("/Signin")}
-      >
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-function PlaylistScreen() {
-  const playlists = [
-    {
-      id: "1",
-      title: "The Black Parade",
-      artist: "My Chemical Romance",
-      cover: require("../../Image/mcr.jpg"),
-    },
-    {
-      id: "2",
-      title: "My Beautiful Dark Twisted Fantasy",
-      artist: "Kanye West",
-      cover: require("../../Image/mbdtf.jpg"),
-    },
-    {
-      id: "3",
-      title: "In Tongues",
-      artist: "Joji",
-      cover: require("../../Image/joji.jpg"),
-    },
-    {
-      id: "4",
-      title: "The College Dropout",
-      artist: "Kanye West",
-      cover: require("../../Image/kanye.webp"),
-    },
-    {
-      id: "5",
-      title: "Late Registration",
-      artist: "Kanye West",
-      cover: require("../../Image/lopt.jpg"),
-    },
-    {
-      id: "6",
-      title: "Graduation",
-      artist: "Kanye West",
-      cover: require("../../Image/graduation.jpg"),
-    },
-    {
-      id: "7",
-      title: "808s & Heartbreak",
-      artist: "Kanye West",
-      cover: require("../../Image/Ye.jpg"),
-    },
-    {
-      id: "8",
-      title: "Yeezus",
-      artist: "Kanye West",
-      cover: require("../../Image/nectar.jpg"),
-    },
-  ];
-
-  return (
-    <View style={styles.center}>
-      <Text style={styles.playlistHeader}>Your Library</Text>
-      <Text style={styles.playlistSubheader}>Recently played albums</Text>
-      <FlatList
-        data={playlists}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <View style={styles.playlistCardAlt}>
-            <View style={styles.playlistImageContainer}>
-              <Image source={item.cover} style={styles.playlistCover} />
-            </View>
-            <View style={styles.playlistInfo}>
-              <Text style={styles.playlistTitle} numberOfLines={2}>{item.title}</Text>
-              <Text style={styles.playlistArtist} numberOfLines={1}>{item.artist}</Text>
-            </View>
-          </View>
-        )}
-        contentContainerStyle={styles.playlistGrid}
-      />
-    </View>
-  );
-}
-
-export default function HomePage() {
-  return (
-    <Drawer.Navigator
-      initialRouteName="Profile"
-      screenOptions={{
-        drawerStyle: {
-          backgroundColor: "#000000",
-          width: 290,
-          borderTopRightRadius: 40,
-          borderBottomRightRadius: 40,
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
-          shadowColor: "#1DB954",
-          shadowOpacity: 0.3,
-          shadowRadius: 10,
-          elevation: 10,
-        },
-        drawerActiveTintColor: "#1DB954",
-        drawerInactiveTintColor: "#b0b0b0",
-        drawerActiveBackgroundColor: "#121212",
-        drawerLabelStyle: {
-          fontSize: 20,
-          fontWeight: "900",
-          letterSpacing: 1,
-          marginLeft: -10,
-        },
-        headerStyle: {
-          backgroundColor: "#000000",
-          borderBottomWidth: 0,
-          shadowColor: "transparent",
-        },
-        headerTintColor: "#1DB954",
-        headerTitleAlign: "center",
-      }}
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#1DB954"
+          colors={["#1DB954"]}
+        />
+      }
     >
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Your Library" component={PlaylistScreen} />
-      <Drawer.Screen name="Settings" component={SettingsScreen} />
-    </Drawer.Navigator>
+      {/* Header Section */}
+      <ThemedView style={styles.headerSection}>
+        <ThemedText style={styles.welcomeText}>Good morning</ThemedText>
+        <ThemedText style={styles.mainTitle}>Your Music</ThemedText>
+        <ThemedText style={styles.subtitle}>Continue where you left off</ThemedText>
+      </ThemedView>
+
+      {/* Recently Played */}
+      <View style={styles.recentSection}>
+        <ThemedText style={styles.sectionTitle}>Recently Played</ThemedText>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+          <View style={styles.recentItem}>
+            <Image
+              source={require("../../Image/mbdtf.jpg")}
+              style={styles.recentImage}
+            />
+            <ThemedText style={styles.recentTitle}>My Beautiful Dark Twisted Fantasy</ThemedText>
+            <ThemedText style={styles.recentArtist}>Kanye West</ThemedText>
+          </View>
+          <View style={styles.recentItem}>
+            <Image
+              source={require("../../Image/mcr.jpg")}
+              style={styles.recentImage}
+            />
+            <ThemedText style={styles.recentTitle}>The Black Parade</ThemedText>
+            <ThemedText style={styles.recentArtist}>My Chemical Romance</ThemedText>
+          </View>
+          <View style={styles.recentItem}>
+            <Image
+              source={require("../../Image/joji.jpg")}
+              style={styles.recentImage}
+            />
+            <ThemedText style={styles.recentTitle}>Nectar</ThemedText>
+            <ThemedText style={styles.recentArtist}>Joji</ThemedText>
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Your Playlists */}
+      <View style={styles.playlistsSection}>
+        <ThemedText style={styles.sectionTitle}>Made for You</ThemedText>
+        <View style={styles.playlistGrid}>
+          <TouchableOpacity style={styles.playlistCard}>
+            <View style={styles.playlistIcon}>
+              <Ionicons name="musical-notes" size={24} color="#1DB954" />
+            </View>
+            <ThemedText style={styles.playlistTitle}>Liked Songs</ThemedText>
+            <ThemedText style={styles.playlistCount}>127 songs</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.playlistCard}>
+            <View style={styles.playlistIcon}>
+              <Ionicons name="heart" size={24} color="#1DB954" />
+            </View>
+            <ThemedText style={styles.playlistTitle}>Favorites</ThemedText>
+            <ThemedText style={styles.playlistCount}>89 songs</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.playlistCard}>
+            <View style={styles.playlistIcon}>
+              <Ionicons name="time" size={24} color="#1DB954" />
+            </View>
+            <ThemedText style={styles.playlistTitle}>Recently Added</ThemedText>
+            <ThemedText style={styles.playlistCount}>45 songs</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.playlistCard}>
+            <View style={styles.playlistIcon}>
+              <Ionicons name="add" size={24} color="#1DB954" />
+            </View>
+            <ThemedText style={styles.playlistTitle}>Create Playlist</ThemedText>
+            <ThemedText style={styles.playlistCount}>+</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Quick Access */}
+      <View style={styles.quickAccessSection}>
+        <ThemedText style={styles.sectionTitle}>Quick Access</ThemedText>
+        <View style={styles.quickAccessGrid}>
+          <TouchableOpacity style={styles.quickAccessItem}>
+            <Ionicons name="library" size={28} color="#1DB954" />
+            <ThemedText style={styles.quickAccessText}>Your Library</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickAccessItem}>
+            <Ionicons name="search" size={28} color="#1DB954" />
+            <ThemedText style={styles.quickAccessText}>Search</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickAccessItem}>
+            <Ionicons name="radio" size={28} color="#1DB954" />
+            <ThemedText style={styles.quickAccessText}>Radio</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickAccessItem}>
+            <Ionicons name="settings" size={28} color="#1DB954" />
+            <ThemedText style={styles.quickAccessText}>Settings</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
+  container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#121212",
+    backgroundColor: "#000000",
   },
-  profileContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#121212",
-    padding: 20,
+  contentContainer: {
+    flexGrow: 1,
+    paddingBottom: 40,
   },
-  profile: {
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    marginBottom: 20,
-    borderWidth: 4,
-    borderColor: "#1DB954",
+  headerSection: {
+    paddingTop: 60,
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+    backgroundColor: "#000000",
   },
-  name: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  email: {
+  welcomeText: {
+    color: "#1DB954",
     fontSize: 16,
-    color: "#B3B3B3",
-    textAlign: "center",
-    marginBottom: 30,
-  },
-  logoutButton: {
-    marginTop: 40,
-    padding: 15,
-    backgroundColor: "#1DB954",
-    borderRadius: 25,
-    alignItems: "center",
-  },
-  logoutText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  playlistHeader: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#FFFFFF",
+    fontWeight: "600",
     marginBottom: 8,
-    textAlign: "left",
   },
-  playlistSubheader: {
-    fontSize: 14,
-    color: "#B3B3B3",
-    marginBottom: 20,
-    textAlign: "left",
-  },
-  playlistGrid: {
-    paddingBottom: 20,
-  },
-  playlistCardAlt: {
-    flex: 1,
-    margin: 8,
-    backgroundColor: "#282828",
-    borderRadius: 8,
-    padding: 12,
-    maxWidth: '45%',
-  },
-  playlistImageContainer: {
-    width: '100%',
-    aspectRatio: 1,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 12,
-  },
-  playlistCover: {
-    width: '100%',
-    height: '100%',
-  },
-  playlistInfo: {
-    flex: 1,
-  },
-  playlistTitle: {
-    fontSize: 14,
+  mainTitle: {
     color: "#FFFFFF",
+    fontSize: 32,
+    fontWeight: "bold",
+    marginBottom: 8,
+    lineHeight: 38,
+  },
+  subtitle: {
+    color: "#B3B3B3",
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  recentSection: {
+    paddingHorizontal: 24,
+    marginBottom: 32,
+  },
+  sectionTitle: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  horizontalScroll: {
+    marginHorizontal: -24,
+    paddingHorizontal: 24,
+  },
+  recentItem: {
+    width: 140,
+    marginRight: 16,
+  },
+  recentImage: {
+    width: 140,
+    height: 140,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  recentTitle: {
+    color: "#FFFFFF",
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 4,
   },
-  playlistArtist: {
-    fontSize: 12,
+  recentArtist: {
     color: "#B3B3B3",
+    fontSize: 12,
+  },
+  playlistsSection: {
+    paddingHorizontal: 24,
+    marginBottom: 32,
+  },
+  playlistGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  playlistCard: {
+    backgroundColor: "#121212",
+    width: "48%",
+    padding: 16,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  playlistIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: "#1DB954",
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  playlistTitle: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 4,
+    textAlign: "center",
+  },
+  playlistCount: {
+    color: "#B3B3B3",
+    fontSize: 12,
+    textAlign: "center",
+  },
+  quickAccessSection: {
+    paddingHorizontal: 24,
+  },
+  quickAccessGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  quickAccessItem: {
+    backgroundColor: "#121212",
+    width: "48%",
+    padding: 20,
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  quickAccessText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 8,
+    textAlign: "center",
   },
 });

@@ -1,7 +1,6 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function NotFoundScreen() {
@@ -10,7 +9,11 @@ export default function NotFoundScreen() {
       <Stack.Screen options={{ title: 'Oops!' }} />
       <ThemedView style={styles.container}>
         <Link href="/Home" style={styles.link}>
-          <ThemedText type="link" style={styles.linkText}>Spotify</ThemedText>
+          <Image 
+            source={require('@/Image/Spotify_icon.svg.png')} 
+            style={styles.spotifyIcon}
+            resizeMode="contain"
+          />
         </Link>
       </ThemedView>
     </>
@@ -18,8 +21,9 @@ export default function NotFoundScreen() {
 }
 
 const styles = StyleSheet.create({
-  linkText: {
-    color: "#fff",
+  spotifyIcon: {
+    width: 120,
+    height: 40,
   },
   container: {
     flex: 1,

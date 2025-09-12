@@ -66,7 +66,7 @@ export default function SpotifyLoginScreen() {
 
       {/* Sign Up Link */}
       <Text style={styles.signupText}>
-        Don't have an account? <Link href="/SignUp" style={styles.signupLink}>Sign Up</Link>
+        Don&apos;t have an account? <Link href="/SignUp" style={styles.signupLink}>Sign Up</Link>
       </Text>
     </View>
   );

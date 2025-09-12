@@ -1,14 +1,13 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from "expo-image";
 import React, { useState } from "react";
-import { Alert, Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-
-const { width } = Dimensions.get("window");
 
 export default function ComponentShowcase() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -16,6 +15,14 @@ export default function ComponentShowcase() {
     } else {
       Alert.alert("Search", "Please enter a search term");
     }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate refresh delay
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   };
 
   const featuredContent = [
@@ -36,80 +43,172 @@ export default function ComponentShowcase() {
   ];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Header Section */}
-      <ThemedView style={styles.headerSection}>
-        <ThemedText style={styles.welcomeText}>Featured</ThemedText>
-        <ThemedText style={styles.mainTitle}>Trending Now</ThemedText>
-        <ThemedText style={styles.subtitle}>Discover what's hot in music today</ThemedText>
-      </ThemedView>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#1DB954"
+          colors={["#1DB954"]}
+        />
+      }
+    >
+      {/* Green Mini Header */}
+      <View style={styles.miniHeader}>
+        <ThemedText style={styles.miniHeaderText}>Music Discovery</ThemedText>
+        <ThemedText style={styles.miniHeaderTitle}>Explore & Discover</ThemedText>
+        <ThemedText style={styles.miniHeaderSubtitle}>Find new music that matches your taste</ThemedText>
+      </View>
 
-      {/* Search Bar */}
-      <View style={styles.searchSection}>
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search featured content..."
-            placeholderTextColor="#B3B3B3"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <ThemedText style={styles.searchButtonText}>Search</ThemedText>
+      {/* Discovery Filters */}
+      <View style={styles.filtersSection}>
+        <ThemedText style={styles.sectionTitle}>Discovery Filters</ThemedText>
+        <View style={styles.filtersRow}>
+          <TouchableOpacity style={styles.filterChip}>
+            <ThemedText style={styles.filterText}>For You</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.filterChip}>
+            <ThemedText style={styles.filterText}>New & Noteworthy</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.filterChip}>
+            <ThemedText style={styles.filterText}>Trending</ThemedText>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Featured Artists */}
-      <View style={styles.featuredSection}>
-        <ThemedText style={styles.sectionTitle}>Featured Artists This Week</ThemedText>
-        <View style={styles.artistsList}>
-          {featuredContent.map((item, index) => (
-            <View key={index} style={styles.artistCard}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={item.image}
-                  style={styles.artistImage}
-                  contentFit="contain"
-                />
-              </View>
-              <View style={styles.artistInfo}>
-                <ThemedText style={styles.artistTitle}>{item.title}</ThemedText>
-                <ThemedText style={styles.artistSubtitle}>{item.subtitle}</ThemedText>
-                <ThemedText style={styles.artistDescription}>{item.description}</ThemedText>
-                <View style={styles.actionButtons}>
-                  <TouchableOpacity style={styles.primaryButton}>
-                    <ThemedText style={styles.primaryButtonText}>Follow</ThemedText>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.secondaryButton}>
-                    <ThemedText style={styles.secondaryButtonText}>Listen</ThemedText>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          ))}
-        </View>
+      {/* New Releases */}
+      <View style={styles.newReleasesSection}>
+        <ThemedText style={styles.sectionTitle}>New Releases</ThemedText>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+          <View style={styles.releaseCard}>
+            <Image
+              source={require("../../Image/mbdtf.jpg")}
+              style={styles.releaseImage}
+            />
+            <ThemedText style={styles.releaseTitle}>My Beautiful Dark Twisted Fantasy</ThemedText>
+            <ThemedText style={styles.releaseArtist}>Kanye West</ThemedText>
+            <ThemedText style={styles.releaseDate}>Released 2 days ago</ThemedText>
+          </View>
+          <View style={styles.releaseCard}>
+            <Image
+              source={require("../../Image/mcr.jpg")}
+              style={styles.releaseImage}
+            />
+            <ThemedText style={styles.releaseTitle}>The Black Parade</ThemedText>
+            <ThemedText style={styles.releaseArtist}>My Chemical Romance</ThemedText>
+            <ThemedText style={styles.releaseDate}>Released 1 week ago</ThemedText>
+          </View>
+          <View style={styles.releaseCard}>
+            <Image
+              source={require("../../Image/joji.jpg")}
+              style={styles.releaseImage}
+            />
+            <ThemedText style={styles.releaseTitle}>Nectar</ThemedText>
+            <ThemedText style={styles.releaseArtist}>Joji</ThemedText>
+            <ThemedText style={styles.releaseDate}>Released 3 days ago</ThemedText>
+          </View>
+        </ScrollView>
       </View>
 
-      {/* Trending Categories */}
+      {/* Trending Now */}
       <View style={styles.trendingSection}>
-        <ThemedText style={styles.sectionTitle}>Trending Categories</ThemedText>
+        <ThemedText style={styles.sectionTitle}>Trending Now</ThemedText>
+        <View style={styles.trendingList}>
+          <TouchableOpacity style={styles.trendingItem}>
+            <View style={styles.trendingNumber}>
+              <ThemedText style={styles.trendingNumberText}>1</ThemedText>
+            </View>
+            <Image
+              source={require("../../Image/mbdtf.jpg")}
+              style={styles.trendingImage}
+            />
+            <View style={styles.trendingInfo}>
+              <ThemedText style={styles.trendingTitle}>Power</ThemedText>
+              <ThemedText style={styles.trendingArtist}>Kanye West</ThemedText>
+            </View>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.trendingItem}>
+            <View style={styles.trendingNumber}>
+              <ThemedText style={styles.trendingNumberText}>2</ThemedText>
+            </View>
+            <Image
+              source={require("../../Image/mcr.jpg")}
+              style={styles.trendingImage}
+            />
+            <View style={styles.trendingInfo}>
+              <ThemedText style={styles.trendingTitle}>Welcome to the Black Parade</ThemedText>
+              <ThemedText style={styles.trendingArtist}>My Chemical Romance</ThemedText>
+            </View>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.trendingItem}>
+            <View style={styles.trendingNumber}>
+              <ThemedText style={styles.trendingNumberText}>3</ThemedText>
+            </View>
+            <Image
+              source={require("../../Image/joji.jpg")}
+              style={styles.trendingImage}
+            />
+            <View style={styles.trendingInfo}>
+              <ThemedText style={styles.trendingTitle}>Glimpse of Us</ThemedText>
+              <ThemedText style={styles.trendingArtist}>Joji</ThemedText>
+            </View>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Discover by Mood */}
+      <View style={styles.categoriesSection}>
+        <ThemedText style={styles.sectionTitle}>Discover by Mood</ThemedText>
         <View style={styles.categoriesGrid}>
-          <TouchableOpacity style={styles.trendingCard}>
-            <ThemedText style={styles.trendingTitle}>New Releases</ThemedText>
-            <ThemedText style={styles.trendingSubtext}>Latest drops from top artists</ThemedText>
+          <TouchableOpacity style={styles.categoryCard}>
+            <Ionicons name="sunny" size={32} color="#FFD700" />
+            <ThemedText style={styles.categoryTitle}>Happy</ThemedText>
+            <ThemedText style={styles.categorySubtext}>Upbeat and energetic</ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.trendingCard}>
-            <ThemedText style={styles.trendingTitle}>Rising Stars</ThemedText>
-            <ThemedText style={styles.trendingSubtext}>Up-and-coming talent</ThemedText>
+          <TouchableOpacity style={styles.categoryCard}>
+            <Ionicons name="moon" size={32} color="#9370DB" />
+            <ThemedText style={styles.categoryTitle}>Chill</ThemedText>
+            <ThemedText style={styles.categorySubtext}>Relaxing and mellow</ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.trendingCard}>
-            <ThemedText style={styles.trendingTitle}>Chart Toppers</ThemedText>
-            <ThemedText style={styles.trendingSubtext}>Most popular tracks</ThemedText>
+          <TouchableOpacity style={styles.categoryCard}>
+            <Ionicons name="flame" size={32} color="#FF4500" />
+            <ThemedText style={styles.categoryTitle}>Workout</ThemedText>
+            <ThemedText style={styles.categorySubtext}>High energy tracks</ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.trendingCard}>
-            <ThemedText style={styles.trendingTitle}>Underground</ThemedText>
-            <ThemedText style={styles.trendingSubtext}>Hidden gems to discover</ThemedText>
+          <TouchableOpacity style={styles.categoryCard}>
+            <Ionicons name="heart" size={32} color="#FF69B4" />
+            <ThemedText style={styles.categoryTitle}>Romantic</ThemedText>
+            <ThemedText style={styles.categorySubtext}>Love songs and ballads</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Search by Genre */}
+      <View style={styles.genreSection}>
+        <ThemedText style={styles.sectionTitle}>Search by Genre</ThemedText>
+        <View style={styles.genreGrid}>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#1DB954" }]}>
+            <ThemedText style={styles.genreTitle}>Hip Hop</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#E22134" }]}>
+            <ThemedText style={styles.genreTitle}>Rock</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#FF6B35" }]}>
+            <ThemedText style={styles.genreTitle}>Pop</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#8E44AD" }]}>
+            <ThemedText style={styles.genreTitle}>Electronic</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#F39C12" }]}>
+            <ThemedText style={styles.genreTitle}>Jazz</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#2ECC71" }]}>
+            <ThemedText style={styles.genreTitle}>Alternative</ThemedText>
           </TouchableOpacity>
         </View>
       </View>
@@ -126,60 +225,52 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 40,
   },
-  headerSection: {
+  miniHeader: {
     paddingTop: 60,
     paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingBottom: 24,
     backgroundColor: "#000000",
   },
-  welcomeText: {
+  miniHeaderText: {
     color: "#1DB954",
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 8,
   },
-  mainTitle: {
+  miniHeaderTitle: {
     color: "#FFFFFF",
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 8,
     lineHeight: 38,
   },
-  subtitle: {
+  miniHeaderSubtitle: {
     color: "#B3B3B3",
     fontSize: 16,
     lineHeight: 22,
   },
-  searchSection: {
+  filtersSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
   },
-  searchContainer: {
+  filtersRow: {
     flexDirection: "row",
+    gap: 12,
+  },
+  filterChip: {
     backgroundColor: "#121212",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    alignItems: "center",
-  },
-  searchInput: {
-    flex: 1,
-    color: "#FFFFFF",
-    fontSize: 16,
-    paddingVertical: 12,
-  },
-  searchButton: {
-    backgroundColor: "#1DB954",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#282828",
   },
-  searchButtonText: {
+  filterText: {
     color: "#FFFFFF",
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "500",
   },
-  featuredSection: {
+  newReleasesSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
   },
@@ -189,77 +280,107 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
   },
-  artistsList: {
-    gap: 16,
+  horizontalScroll: {
+    marginHorizontal: -24,
+    paddingHorizontal: 24,
   },
-  artistCard: {
-    flexDirection: "row",
-    backgroundColor: "#121212",
-    borderRadius: 12,
-    padding: 16,
-    alignItems: "flex-start",
-  },
-  imageContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 6,
-    overflow: "hidden",
+  releaseCard: {
+    width: 160,
     marginRight: 16,
   },
-  artistImage: {
-    width: "100%",
-    height: "100%",
-  },
-  artistInfo: {
-    flex: 1,
-  },
-  artistTitle: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 2,
-  },
-  artistSubtitle: {
-    color: "#1DB954",
-    fontSize: 14,
-    fontWeight: "600",
+  releaseImage: {
+    width: 160,
+    height: 160,
+    borderRadius: 8,
     marginBottom: 8,
   },
-  artistDescription: {
-    color: "#B3B3B3",
-    fontSize: 13,
-    lineHeight: 18,
-    marginBottom: 12,
-  },
-  actionButtons: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  primaryButton: {
-    backgroundColor: "#1DB954",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  primaryButtonText: {
+  releaseTitle: {
     color: "#FFFFFF",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
+    marginBottom: 4,
   },
-  secondaryButton: {
-    borderWidth: 1,
-    borderColor: "#1DB954",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
+  releaseArtist: {
+    color: "#B3B3B3",
+    fontSize: 12,
+    marginBottom: 2,
   },
-  secondaryButtonText: {
+  releaseDate: {
     color: "#1DB954",
-    fontSize: 12,
-    fontWeight: "bold",
+    fontSize: 11,
   },
   trendingSection: {
     paddingHorizontal: 24,
+    marginBottom: 32,
+  },
+  trendingList: {
+    gap: 12,
+  },
+  trendingItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#121212",
+    borderRadius: 8,
+    padding: 12,
+  },
+  trendingNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#1DB954",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+  trendingNumberText: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  trendingImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 4,
+    marginRight: 12,
+  },
+  trendingInfo: {
+    flex: 1,
+  },
+  trendingTitle: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 2,
+  },
+  trendingArtist: {
+    color: "#B3B3B3",
+    fontSize: 12,
+  },
+  categoriesSection: {
+    paddingHorizontal: 24,
+    marginBottom: 32,
+  },
+  genreSection: {
+    paddingHorizontal: 24,
+    marginBottom: 32,
+  },
+  genreGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  genreCard: {
+    width: "48%",
+    paddingVertical: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  genreTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   categoriesGrid: {
     flexDirection: "row",
@@ -267,23 +388,23 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 12,
   },
-  trendingCard: {
+  categoryCard: {
     backgroundColor: "#121212",
     width: "48%",
-    padding: 16,
+    padding: 20,
     borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: "#1DB954",
+    alignItems: "center",
   },
-  trendingTitle: {
+  categoryTitle: {
     color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "bold",
+    marginTop: 8,
     marginBottom: 4,
   },
-  trendingSubtext: {
+  categorySubtext: {
     color: "#B3B3B3",
     fontSize: 12,
-    lineHeight: 16,
+    textAlign: "center",
   },
 });

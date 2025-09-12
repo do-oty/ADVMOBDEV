@@ -1,27 +1,45 @@
-import { Image } from 'expo-image';
-import { Dimensions, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { RefreshControl, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-const { width } = Dimensions.get("window");
 
 export default function TabTwoScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate refresh delay
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Header Section */}
-      <ThemedView style={styles.headerSection}>
-        <ThemedText style={styles.welcomeText}>Search</ThemedText>
-        <ThemedText style={styles.mainTitle}>Find Your Next Favorite</ThemedText>
-        <ThemedText style={styles.subtitle}>Search through millions of tracks and artists</ThemedText>
-      </ThemedView>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#1DB954"
+          colors={["#1DB954"]}
+        />
+      }
+    >
+      {/* Green Mini Header */}
+      <View style={styles.miniHeader}>
+        <ThemedText style={styles.miniHeaderText}>Music Search</ThemedText>
+        <ThemedText style={styles.miniHeaderTitle}>Find Anything</ThemedText>
+        <ThemedText style={styles.miniHeaderSubtitle}>Search artists, songs, albums, and playlists</ThemedText>
+      </View>
 
       {/* Search Bar */}
       <View style={styles.searchSection}>
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Search artists, songs, albums..."
+            placeholder="Search"
             placeholderTextColor="#B3B3B3"
           />
           <TouchableOpacity style={styles.searchButton}>
@@ -30,24 +48,22 @@ export default function TabTwoScreen() {
         </View>
       </View>
 
-      {/* Featured Artist */}
-      <View style={styles.featuredSection}>
-        <ThemedText style={styles.sectionTitle}>Featured Artist</ThemedText>
-        <View style={styles.artistCard}>
-          <Image
-            source={require("../../Image/kanye.webp")}
-            style={styles.artistImage}
-          />
-          <View style={styles.artistInfo}>
-            <ThemedText style={styles.artistName}>Kanye West</ThemedText>
-            <ThemedText style={styles.artistGenre}>Hip-Hop, Rap</ThemedText>
-            <ThemedText style={styles.artistDescription}>
-              Groundbreaking artist known for innovative production and influential albums that have shaped modern hip-hop.
-            </ThemedText>
-            <TouchableOpacity style={styles.followButton}>
-              <ThemedText style={styles.followButtonText}>Follow Artist</ThemedText>
-            </TouchableOpacity>
-          </View>
+      {/* Quick Search Suggestions */}
+      <View style={styles.suggestionsSection}>
+        <ThemedText style={styles.sectionTitle}>Quick Search</ThemedText>
+        <View style={styles.suggestionsGrid}>
+          <TouchableOpacity style={styles.suggestionCard}>
+            <ThemedText style={styles.suggestionText}>Trending Songs</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.suggestionCard}>
+            <ThemedText style={styles.suggestionText}>New Releases</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.suggestionCard}>
+            <ThemedText style={styles.suggestionText}>Top Artists</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.suggestionCard}>
+            <ThemedText style={styles.suggestionText}>Popular Playlists</ThemedText>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -104,26 +120,26 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 40,
   },
-  headerSection: {
+  miniHeader: {
     paddingTop: 60,
     paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingBottom: 24,
     backgroundColor: "#000000",
   },
-  welcomeText: {
+  miniHeaderText: {
     color: "#1DB954",
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 8,
   },
-  mainTitle: {
+  miniHeaderTitle: {
     color: "#FFFFFF",
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 8,
     lineHeight: 38,
   },
-  subtitle: {
+  miniHeaderSubtitle: {
     color: "#B3B3B3",
     fontSize: 16,
     lineHeight: 22,
@@ -157,7 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
-  featuredSection: {
+  suggestionsSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
   },
@@ -167,51 +183,27 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
   },
-  artistCard: {
+  suggestionsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  suggestionCard: {
     backgroundColor: "#121212",
+    width: "48%",
+    paddingVertical: 20,
+    paddingHorizontal: 16,
     borderRadius: 12,
-    padding: 20,
-  },
-  artistImage: {
-    width: "100%",
-    height: 200,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  artistInfo: {
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#282828",
   },
-  artistName: {
+  suggestionText: {
     color: "#FFFFFF",
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 4,
-    textAlign: "center",
-  },
-  artistGenre: {
-    color: "#1DB954",
     fontSize: 14,
     fontWeight: "600",
-    marginBottom: 12,
     textAlign: "center",
-  },
-  artistDescription: {
-    color: "#B3B3B3",
-    fontSize: 14,
-    lineHeight: 20,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  followButton: {
-    backgroundColor: "#1DB954",
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    borderRadius: 25,
-  },
-  followButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
   },
   categoriesSection: {
     paddingHorizontal: 24,

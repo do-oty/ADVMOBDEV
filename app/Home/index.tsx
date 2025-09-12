@@ -1,74 +1,100 @@
-import { Image } from 'expo-image';
-import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 
-const { width } = Dimensions.get("window");
+export default function WelcomeScreen() {
+  const [refreshing, setRefreshing] = useState(false);
 
-export default function HomeScreen() {
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate refresh delay
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Header Section */}
-      <ThemedView style={styles.headerSection}>
-        <ThemedText style={styles.welcomeText}>Welcome Back</ThemedText>
-        <ThemedText style={styles.mainTitle}>Discover Your Sound</ThemedText>
-        <ThemedText style={styles.subtitle}>Millions of tracks, endless possibilities</ThemedText>
-      </ThemedView>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#1DB954"
+          colors={["#1DB954"]}
+        />
+      }
+    >
+      {/* Green Mini Header */}
+      <View style={styles.miniHeader}>
+        <ThemedText style={styles.miniHeaderText}>Welcome Back</ThemedText>
+        <ThemedText style={styles.miniHeaderTitle}>Get Started</ThemedText>
+        <ThemedText style={styles.miniHeaderSubtitle}>Explore what you can do with Spotify</ThemedText>
+      </View>
 
-      {/* Featured Track Section */}
-      <View style={styles.featuredSection}>
-        <ThemedText style={styles.sectionTitle}>Now Playing</ThemedText>
-        <View style={styles.trackCard}>
-          <Image
-            source={require("../../Image/mbdtf.jpg")}
-            style={styles.trackImage}
-          />
-          <View style={styles.trackInfo}>
-            <ThemedText style={styles.trackTitle}>My Beautiful Dark Twisted Fantasy</ThemedText>
-            <ThemedText style={styles.trackArtist}>Kanye West</ThemedText>
-            <View style={styles.trackControls}>
-              <TouchableOpacity style={styles.playButton}>
-                <ThemedText style={styles.playButtonText}>Play</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.addButton}>
-                <ThemedText style={styles.addButtonText}>Add to Library</ThemedText>
-              </TouchableOpacity>
+      {/* Features Section */}
+      <View style={styles.featuresSection}>
+        <ThemedText style={styles.sectionTitle}>What you can do</ThemedText>
+        <View style={styles.featuresList}>
+          <View style={styles.featureItem}>
+            <Ionicons name="musical-notes" size={32} color="#1DB954" />
+            <View style={styles.featureText}>
+              <ThemedText style={styles.featureTitle}>Listen to Music</ThemedText>
+              <ThemedText style={styles.featureDescription}>Access millions of songs from artists worldwide</ThemedText>
+            </View>
+          </View>
+          <View style={styles.featureItem}>
+            <Ionicons name="library" size={32} color="#1DB954" />
+            <View style={styles.featureText}>
+              <ThemedText style={styles.featureTitle}>Create Playlists</ThemedText>
+              <ThemedText style={styles.featureDescription}>Build your own music collections</ThemedText>
+            </View>
+          </View>
+          <View style={styles.featureItem}>
+            <Ionicons name="search" size={32} color="#1DB954" />
+            <View style={styles.featureText}>
+              <ThemedText style={styles.featureTitle}>Discover New Music</ThemedText>
+              <ThemedText style={styles.featureDescription}>Find your next favorite artist or song</ThemedText>
             </View>
           </View>
         </View>
       </View>
 
-      {/* Music Categories */}
-      <View style={styles.categoriesSection}>
-        <ThemedText style={styles.sectionTitle}>Explore Music</ThemedText>
-        <View style={styles.categoriesGrid}>
-          <TouchableOpacity style={styles.categoryCard}>
-            <ThemedText style={styles.categoryTitle}>Hip Hop</ThemedText>
-            <ThemedText style={styles.categorySubtext}>Latest beats and rhymes</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryCard}>
-            <ThemedText style={styles.categoryTitle}>Rock</ThemedText>
-            <ThemedText style={styles.categorySubtext}>Classic and modern rock</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryCard}>
-            <ThemedText style={styles.categoryTitle}>Pop</ThemedText>
-            <ThemedText style={styles.categorySubtext}>Chart-topping hits</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryCard}>
-            <ThemedText style={styles.categoryTitle}>Indie</ThemedText>
-            <ThemedText style={styles.categorySubtext}>Underground discoveries</ThemedText>
-          </TouchableOpacity>
+      {/* Getting Started */}
+      <View style={styles.gettingStartedSection}>
+        <ThemedText style={styles.sectionTitle}>Getting Started</ThemedText>
+        <View style={styles.stepsList}>
+          <View style={styles.stepItem}>
+            <View style={styles.stepNumber}>
+              <ThemedText style={styles.stepNumberText}>1</ThemedText>
+            </View>
+            <ThemedText style={styles.stepText}>Swipe right from the left edge to open the menu</ThemedText>
+          </View>
+          <View style={styles.stepItem}>
+            <View style={styles.stepNumber}>
+              <ThemedText style={styles.stepNumberText}>2</ThemedText>
+            </View>
+            <ThemedText style={styles.stepText}>Pull down to refresh content on any page</ThemedText>
+          </View>
+          <View style={styles.stepItem}>
+            <View style={styles.stepNumber}>
+              <ThemedText style={styles.stepNumberText}>3</ThemedText>
+            </View>
+            <ThemedText style={styles.stepText}>Explore different tabs to discover music</ThemedText>
+          </View>
         </View>
       </View>
 
       {/* Quick Actions */}
       <View style={styles.actionsSection}>
         <TouchableOpacity style={styles.primaryAction}>
-          <ThemedText style={styles.primaryActionText}>Start Listening</ThemedText>
+          <ThemedText style={styles.primaryActionText}>Get Started</ThemedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.secondaryAction}>
-          <ThemedText style={styles.secondaryActionText}>Browse Library</ThemedText>
+          <ThemedText style={styles.secondaryActionText}>Learn More</ThemedText>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -84,31 +110,31 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 40,
   },
-  headerSection: {
+  miniHeader: {
     paddingTop: 60,
     paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingBottom: 24,
     backgroundColor: "#000000",
   },
-  welcomeText: {
+  miniHeaderText: {
     color: "#1DB954",
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 8,
   },
-  mainTitle: {
+  miniHeaderTitle: {
     color: "#FFFFFF",
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 8,
     lineHeight: 38,
   },
-  subtitle: {
+  miniHeaderSubtitle: {
     color: "#B3B3B3",
     fontSize: 16,
     lineHeight: 22,
   },
-  featuredSection: {
+  featuresSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
   },
@@ -118,89 +144,64 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
   },
-  trackCard: {
+  featuresList: {
+    gap: 16,
+  },
+  featureItem: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#121212",
     borderRadius: 12,
-    padding: 20,
-    flexDirection: "row",
-    alignItems: "flex-start",
+    padding: 16,
   },
-  trackImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    marginRight: 16,
-  },
-  trackInfo: {
+  featureText: {
     flex: 1,
+    marginLeft: 16,
   },
-  trackTitle: {
+  featureTitle: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 4,
-    lineHeight: 20,
   },
-  trackArtist: {
+  featureDescription: {
     color: "#B3B3B3",
     fontSize: 14,
-    marginBottom: 16,
+    lineHeight: 20,
   },
-  trackControls: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  playButton: {
-    backgroundColor: "#1DB954",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  playButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  addButton: {
-    borderWidth: 1,
-    borderColor: "#1DB954",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  addButtonText: {
-    color: "#1DB954",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  categoriesSection: {
+  gettingStartedSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
   },
-  categoriesGrid: {
+  stepsList: {
+    gap: 16,
+  },
+  stepItem: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  categoryCard: {
+    alignItems: "center",
     backgroundColor: "#121212",
-    width: "48%",
-    padding: 20,
     borderRadius: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: "#1DB954",
+    padding: 16,
   },
-  categoryTitle: {
+  stepNumber: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#1DB954",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 16,
+  },
+  stepNumberText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 4,
   },
-  categorySubtext: {
-    color: "#B3B3B3",
-    fontSize: 12,
-    lineHeight: 16,
+  stepText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    flex: 1,
+    lineHeight: 20,
   },
   actionsSection: {
     paddingHorizontal: 24,
