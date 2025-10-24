@@ -1,3 +1,5 @@
+import ThemedButton from '@/components/ThemedButton';
+import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -15,8 +17,9 @@ export default function TabTwoScreen() {
   };
 
   return (
+    <ThemedView style={styles.container}>
     <ScrollView 
-      style={styles.container} 
+      style={styles.scroll}
       contentContainerStyle={styles.contentContainer}
       refreshControl={
         <RefreshControl
@@ -29,9 +32,9 @@ export default function TabTwoScreen() {
     >
       {/* Green Mini Header */}
       <View style={styles.miniHeader}>
-        <ThemedText style={styles.miniHeaderText}>Music Search</ThemedText>
+        <ThemedText tone="accent" style={styles.miniHeaderText}>Music Search</ThemedText>
         <ThemedText style={styles.miniHeaderTitle}>Find Anything</ThemedText>
-        <ThemedText style={styles.miniHeaderSubtitle}>Search artists, songs, albums, and playlists</ThemedText>
+        <ThemedText tone="muted" style={styles.miniHeaderSubtitle}>Search artists, songs, albums, and playlists</ThemedText>
       </View>
 
       {/* Search Bar */}
@@ -42,9 +45,7 @@ export default function TabTwoScreen() {
             placeholder="Search"
             placeholderTextColor="#B3B3B3"
           />
-          <TouchableOpacity style={styles.searchButton}>
-            <ThemedText style={styles.searchButtonText}>Search</ThemedText>
-          </TouchableOpacity>
+          <ThemedButton title="Search" style={{ paddingVertical: 8, paddingHorizontal: 16, borderRadius: 6 }} />
         </View>
       </View>
 
@@ -108,14 +109,13 @@ export default function TabTwoScreen() {
         </View>
       </View>
     </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000000",
-  },
+  container: { flex: 1 },
+  scroll: { flex: 1 },
   contentContainer: {
     flexGrow: 1,
     paddingBottom: 40,

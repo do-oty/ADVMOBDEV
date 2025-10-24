@@ -1,6 +1,9 @@
+import ThemedButton from '@/components/ThemedButton';
+import ThemedInput from '@/components/ThemedInput';
+import { ThemedView } from '@/components/ThemedView';
 import { Link, useRouter } from "expo-router";
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SpotifyLoginScreen() {
   const [username, setUsername] = useState('');
@@ -8,7 +11,7 @@ export default function SpotifyLoginScreen() {
   const router = useRouter();
   
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       {/* Spotify Logo */}
       <View style={styles.logoContainer}>
         <Image 
@@ -19,23 +22,10 @@ export default function SpotifyLoginScreen() {
       </View>
 
       {/* Username */}
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#666"
-        value={username}
-        onChangeText={setUsername}
-      />
+      <ThemedInput placeholder="Username" value={username} onChangeText={setUsername} containerStyle={{ marginBottom: 16, width: '100%' }} />
 
       {/* Password */}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#666"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+      <ThemedInput placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} containerStyle={{ marginBottom: 16, width: '100%' }} />
 
       {/* Forgot Password */}
       <TouchableOpacity style={styles.forgotWrapper} activeOpacity={0.7}>
@@ -43,9 +33,7 @@ export default function SpotifyLoginScreen() {
       </TouchableOpacity>
 
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/Home/HomePage")}>
-        <Text style={styles.signInText}>Sign In</Text>
-      </TouchableOpacity>
+      <ThemedButton title="Sign In" onPress={() => router.push("/Home/HomePage")} style={{ width: '100%', height: 56, borderRadius: 28 }} />
 
       {/* Social Logins */}
       <Text style={styles.socialText}>Be Correct With</Text>
@@ -68,18 +56,12 @@ export default function SpotifyLoginScreen() {
       <Text style={styles.signupText}>
         Don&apos;t have an account? <Link href="/SignUp" style={styles.signupLink}>Sign Up</Link>
       </Text>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 40,
-  },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 40 },
   logoContainer: {
     alignItems: 'center',
     marginBottom: 80,
@@ -95,18 +77,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  input: {
-    width: '100%',
-    height: 56,
-    backgroundColor: '#282828',
-    borderRadius: 8,
-    paddingHorizontal: 20,
-    fontSize: 16,
-    color: '#FFFFFF',
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#404040',
-  },
+  
   forgotWrapper: {
     width: '100%',
     alignItems: 'flex-end',
@@ -116,20 +87,7 @@ const styles = StyleSheet.create({
     color: '#B3B3B3',
     fontSize: 14,
   },
-  signInButton: {
-    width: '100%',
-    height: 56,
-    backgroundColor: '#1DB954',
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  signInText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  
   socialText: {
     color: '#1DB954',
     marginBottom: 20,

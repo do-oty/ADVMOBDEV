@@ -6,22 +6,35 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { NavigationProvider } from '@/contexts/NavigationContext';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import type { RootState } from '@/store';
+import { loadThemeFromStorage, store } from '@/store';
+import { setPreset } from '@/store/themeSlice';
+import React from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+function InnerApp() {
+  const dispatch = useDispatch();
+  const { mode } = useSelector((s: RootState) => s.theme);
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  React.useEffect(() => {
+    (async () => {
+      const saved = await loadThemeFromStorage();
+      if (saved) {
+        dispatch(setPreset({ mode: saved.mode, accent: saved.accent }));
+      }
+    })();
+  }, [dispatch]);
 
   if (!loaded) {
     return null;
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <NavigationProvider>
+        <ThemeProvider value={mode === 'light' ? DefaultTheme : DarkTheme}>
+          <NavigationProvider>
           <Stack
             initialRouteName="Signin"
             screenOptions={{
@@ -122,11 +135,21 @@ export default function RootLayout() {
                 },
               }} 
             />
+            <Stack.Screen name="MapFinal" options={{ title: 'Music Map' }} />
             <Stack.Screen name="+not-found" options={{ title: 'Not Found' }} />
           </Stack>
           <StatusBar style="auto" />
         </NavigationProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <InnerApp />
+      </Provider>
     </GestureHandlerRootView>
   );
 }

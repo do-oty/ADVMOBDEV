@@ -31,6 +31,7 @@ export default function ProfileScreen() {
     { title: 'Devices', icon: 'phone-portrait', description: 'Manage connected devices' },
     { title: 'Storage', icon: 'folder', description: 'Manage offline downloads' },
     { title: 'About', icon: 'information-circle', description: 'App version and legal info' },
+    { title: 'Theme', icon: 'color-palette', description: 'Light/Dark and accent colors', route: '/Theme' },
   ];
 
   return (
@@ -45,7 +46,9 @@ export default function ProfileScreen() {
           >
             <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
           </TouchableOpacity>
-          <ThemedText style={styles.title}>Profile & Settings</ThemedText>
+          <View style={styles.headerTextWrap}>
+            <ThemedText style={styles.title}>Profile & Settings</ThemedText>
+          </View>
         </View>
 
         {/* Profile Section */}
@@ -68,6 +71,9 @@ export default function ProfileScreen() {
               key={index}
               style={styles.settingItem}
               activeOpacity={0.7}
+              onPress={() => {
+                if ((item as any).route) router.push((item as any).route as any);
+              }}
             >
               <View style={styles.settingIcon}>
                 <Ionicons name={item.icon as any} size={24} color="#1DB954" />
@@ -92,10 +98,7 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
+  container: { flex: 1 },
   scrollView: {
     flex: 1,
   },
@@ -109,6 +112,9 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 16,
     padding: 8,
+  },
+  headerTextWrap: {
+    flex: 1,
   },
   title: {
     fontSize: 24,
@@ -147,19 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#B3B3B3',
   },
-  settingsContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 32,
-  },
-  settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    marginBottom: 8,
-    backgroundColor: '#121212',
-    borderRadius: 12,
-  },
+  settingsContainer: { paddingHorizontal: 24, paddingTop: 32 },
+  settingItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 16, paddingHorizontal: 16, marginBottom: 8, borderRadius: 12 },
   settingIcon: {
     width: 40,
     height: 40,

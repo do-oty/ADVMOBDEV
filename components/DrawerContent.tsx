@@ -15,6 +15,8 @@ export default function DrawerContent() {
     { title: 'Liked Songs', icon: 'heart', route: '/Home/index' },
     { title: 'Recently Played', icon: 'time', route: '/Home/HomePage' },
     { title: 'Profile & Settings', icon: 'person', route: '/Profile' },
+    { title: 'Camera', icon: 'camera', route: '/Camera' },
+    { title: 'Map', icon: 'map', route: '/MapFinal' },
   ];
 
   return (
@@ -35,7 +37,7 @@ export default function DrawerContent() {
             <TouchableOpacity
               key={index}
               style={styles.menuItem}
-              onPress={() => router.push(item.route as any)}
+              onPress={() => router.replace(item.route as any)}
               activeOpacity={0.7}
             >
               <Ionicons name={item.icon as any} size={24} color="#FFFFFF" />

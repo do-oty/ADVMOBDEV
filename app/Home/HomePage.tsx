@@ -18,8 +18,9 @@ export default function HomeScreen() {
   };
 
   return (
+    <ThemedView style={styles.container}>
     <ScrollView 
-      style={styles.container} 
+      style={styles.scroll}
       contentContainerStyle={styles.contentContainer}
       refreshControl={
         <RefreshControl
@@ -32,9 +33,9 @@ export default function HomeScreen() {
     >
       {/* Header Section */}
       <ThemedView style={styles.headerSection}>
-        <ThemedText style={styles.welcomeText}>Good morning</ThemedText>
+        <ThemedText tone="accent" style={styles.welcomeText}>Good morning</ThemedText>
         <ThemedText style={styles.mainTitle}>Your Music</ThemedText>
-        <ThemedText style={styles.subtitle}>Continue where you left off</ThemedText>
+        <ThemedText tone="muted" style={styles.subtitle}>Continue where you left off</ThemedText>
       </ThemedView>
 
       {/* Recently Played */}
@@ -47,7 +48,7 @@ export default function HomeScreen() {
               style={styles.recentImage}
             />
             <ThemedText style={styles.recentTitle}>My Beautiful Dark Twisted Fantasy</ThemedText>
-            <ThemedText style={styles.recentArtist}>Kanye West</ThemedText>
+            <ThemedText tone="muted" style={styles.recentArtist}>Kanye West</ThemedText>
           </View>
           <View style={styles.recentItem}>
             <Image
@@ -55,7 +56,7 @@ export default function HomeScreen() {
               style={styles.recentImage}
             />
             <ThemedText style={styles.recentTitle}>The Black Parade</ThemedText>
-            <ThemedText style={styles.recentArtist}>My Chemical Romance</ThemedText>
+            <ThemedText tone="muted" style={styles.recentArtist}>My Chemical Romance</ThemedText>
           </View>
           <View style={styles.recentItem}>
             <Image
@@ -63,7 +64,7 @@ export default function HomeScreen() {
               style={styles.recentImage}
             />
             <ThemedText style={styles.recentTitle}>Nectar</ThemedText>
-            <ThemedText style={styles.recentArtist}>Joji</ThemedText>
+            <ThemedText tone="muted" style={styles.recentArtist}>Joji</ThemedText>
           </View>
         </ScrollView>
       </View>
@@ -125,16 +126,14 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
-
     </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000000",
-  },
+  container: { flex: 1 },
+  scroll: { flex: 1 },
   contentContainer: {
     flexGrow: 1,
     paddingBottom: 40,
@@ -143,10 +142,8 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 24,
     paddingBottom: 32,
-    backgroundColor: "#000000",
   },
   welcomeText: {
-    color: "#1DB954",
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 8,

@@ -1,3 +1,4 @@
+import ThemedSurface from '@/components/ThemedSurface';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
@@ -155,20 +156,22 @@ export default function PlaylistsScreen() {
       >
         {/* Green Mini Header */}
         <View style={styles.miniHeader}>
-          <ThemedText style={styles.miniHeaderText}>Music Library</ThemedText>
+          <ThemedText tone="accent" style={styles.miniHeaderText}>Music Library</ThemedText>
           <ThemedText style={styles.miniHeaderTitle}>Your Playlists</ThemedText>
-          <ThemedText style={styles.miniHeaderSubtitle}>Tap any playlist to view details or start playing</ThemedText>
+          <ThemedText tone="muted" style={styles.miniHeaderSubtitle}>Tap any playlist to view details or start playing</ThemedText>
         </View>
 
         {/* Playlists List */}
         <View style={styles.playlistsContainer}>
           {mockPlaylists.map((playlist) => (
-            <PlaylistItem key={playlist.id} playlist={playlist} />
+            <ThemedSurface key={playlist.id} style={styles.playlistItem} withBorder>
+              <PlaylistItem playlist={playlist} />
+            </ThemedSurface>
           ))}
         </View>
 
         {/* Add Playlist Button */}
-        <TouchableOpacity style={styles.addButton} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.addButton} activeOpacity={0.8} onPress={() => router.push('/Home/PlaylistBuilder' as any)}>
           <Ionicons name="add" size={24} color="#1DB954" />
           <ThemedText style={styles.addButtonText}>Create New Playlist</ThemedText>
         </TouchableOpacity>
@@ -178,10 +181,7 @@ export default function PlaylistsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
+  container: { flex: 1 },
   scrollView: {
     flex: 1,
   },
@@ -212,17 +212,7 @@ const styles = StyleSheet.create({
   playlistsContainer: {
     paddingHorizontal: 24,
   },
-  playlistItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    marginBottom: 8,
-    backgroundColor: '#121212',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'transparent',
-  },
+  playlistItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 16, paddingHorizontal: 16, marginBottom: 8, borderRadius: 12 },
   selectedPlaylist: {
     backgroundColor: '#1A1A1A',
     borderColor: '#1DB954',

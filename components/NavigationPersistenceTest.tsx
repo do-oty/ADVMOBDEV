@@ -38,7 +38,7 @@ export default function NavigationPersistenceTest() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleTestPersistence}>
+      <TouchableOpacity style={styles.button} onPress={handleTestPersistence} accessibilityLabel={savedState ? 'State loaded' : 'No state loaded'}>
         <ThemedText style={styles.buttonText}>Test Navigation Persistence</ThemedText>
       </TouchableOpacity>
     </View>

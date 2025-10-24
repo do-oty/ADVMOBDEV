@@ -1,6 +1,9 @@
+import ThemedButton from '@/components/ThemedButton';
+import ThemedSurface from '@/components/ThemedSurface';
+import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 
@@ -16,8 +19,9 @@ export default function WelcomeScreen() {
   };
 
   return (
+    <ThemedView style={styles.container}>
     <ScrollView 
-      style={styles.container} 
+      style={styles.scroll}
       contentContainerStyle={styles.contentContainer}
       refreshControl={
         <RefreshControl
@@ -30,36 +34,36 @@ export default function WelcomeScreen() {
     >
       {/* Green Mini Header */}
       <View style={styles.miniHeader}>
-        <ThemedText style={styles.miniHeaderText}>Welcome Back</ThemedText>
+        <ThemedText tone="accent" style={styles.miniHeaderText}>Welcome Back</ThemedText>
         <ThemedText style={styles.miniHeaderTitle}>Get Started</ThemedText>
-        <ThemedText style={styles.miniHeaderSubtitle}>Explore what you can do with Spotify</ThemedText>
+        <ThemedText tone="muted" style={styles.miniHeaderSubtitle}>Explore what you can do with Spotify</ThemedText>
       </View>
 
       {/* Features Section */}
       <View style={styles.featuresSection}>
         <ThemedText style={styles.sectionTitle}>What you can do</ThemedText>
         <View style={styles.featuresList}>
-          <View style={styles.featureItem}>
+          <ThemedSurface style={styles.featureItem} variant="card">
             <Ionicons name="musical-notes" size={32} color="#1DB954" />
             <View style={styles.featureText}>
               <ThemedText style={styles.featureTitle}>Listen to Music</ThemedText>
               <ThemedText style={styles.featureDescription}>Access millions of songs from artists worldwide</ThemedText>
             </View>
-          </View>
-          <View style={styles.featureItem}>
+          </ThemedSurface>
+          <ThemedSurface style={styles.featureItem} variant="card">
             <Ionicons name="library" size={32} color="#1DB954" />
             <View style={styles.featureText}>
               <ThemedText style={styles.featureTitle}>Create Playlists</ThemedText>
               <ThemedText style={styles.featureDescription}>Build your own music collections</ThemedText>
             </View>
-          </View>
-          <View style={styles.featureItem}>
+          </ThemedSurface>
+          <ThemedSurface style={styles.featureItem} variant="card">
             <Ionicons name="search" size={32} color="#1DB954" />
             <View style={styles.featureText}>
               <ThemedText style={styles.featureTitle}>Discover New Music</ThemedText>
               <ThemedText style={styles.featureDescription}>Find your next favorite artist or song</ThemedText>
             </View>
-          </View>
+          </ThemedSurface>
         </View>
       </View>
 
@@ -90,22 +94,17 @@ export default function WelcomeScreen() {
 
       {/* Quick Actions */}
       <View style={styles.actionsSection}>
-        <TouchableOpacity style={styles.primaryAction}>
-          <ThemedText style={styles.primaryActionText}>Get Started</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.secondaryAction}>
-          <ThemedText style={styles.secondaryActionText}>Learn More</ThemedText>
-        </TouchableOpacity>
+        <ThemedButton title="Get Started" />
+        <ThemedButton variant="secondary" title="Learn More" />
       </View>
     </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000000",
-  },
+  container: { flex: 1 },
+  scroll: { flex: 1 },
   contentContainer: {
     flexGrow: 1,
     paddingBottom: 40,
@@ -147,13 +146,7 @@ const styles = StyleSheet.create({
   featuresList: {
     gap: 16,
   },
-  featureItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#121212",
-    borderRadius: 12,
-    padding: 16,
-  },
+  featureItem: { flexDirection: "row", alignItems: "center", borderRadius: 12, padding: 16 },
   featureText: {
     flex: 1,
     marginLeft: 16,
@@ -206,28 +199,5 @@ const styles = StyleSheet.create({
   actionsSection: {
     paddingHorizontal: 24,
     gap: 12,
-  },
-  primaryAction: {
-    backgroundColor: "#1DB954",
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  primaryActionText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  secondaryAction: {
-    borderWidth: 1,
-    borderColor: "#1DB954",
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  secondaryActionText: {
-    color: "#1DB954",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });

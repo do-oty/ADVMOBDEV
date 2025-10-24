@@ -1,18 +1,24 @@
 import CustomDrawer from "@/components/CustomDrawer";
+import type { RootState } from '@/store';
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function HomeLayout() {
+  const accent = useSelector((s: RootState) => s.theme.accent) || '#1DB954';
+  const mode = useSelector((s: RootState) => s.theme.mode);
+  const tabBg = mode === 'light' ? '#FFFFFF' : '#000000';
   return (
     <CustomDrawer>
       <Tabs
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#1DB954",
+          tabBarActiveTintColor: accent,
           tabBarInactiveTintColor: "#b0b0b0",
           tabBarStyle: {
-            backgroundColor: "#000000",
+            backgroundColor: tabBg,
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
             height: 100,
@@ -74,11 +80,20 @@ export default function HomeLayout() {
           }}
         />
         <Tabs.Screen
+          name="PlaylistBuilder"
+          options={{
+            title: "Create",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="add-circle" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="Playlists"
           options={{
-            title: "Playlists",
+            title: "Library",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="list" size={size} color={color} />
+              <Ionicons name="library" size={size} color={color} />
             ),
           }}
         />

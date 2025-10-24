@@ -1,3 +1,5 @@
+import ThemedSurface from "@/components/ThemedSurface";
+import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from "expo-image";
 import React, { useState } from "react";
@@ -43,38 +45,33 @@ export default function ComponentShowcase() {
   ];
 
   return (
-    <ScrollView 
-      style={styles.container} 
-      contentContainerStyle={styles.contentContainer}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          tintColor="#1DB954"
-          colors={["#1DB954"]}
-        />
-      }
-    >
+    <ThemedView style={styles.container}>
+      <ScrollView 
+        style={styles.scroll}
+        contentContainerStyle={styles.contentContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#1DB954"
+            colors={["#1DB954"]}
+          />
+        }
+      >
       {/* Green Mini Header */}
       <View style={styles.miniHeader}>
-        <ThemedText style={styles.miniHeaderText}>Music Discovery</ThemedText>
+        <ThemedText tone="accent" style={styles.miniHeaderText}>Music Discovery</ThemedText>
         <ThemedText style={styles.miniHeaderTitle}>Explore & Discover</ThemedText>
-        <ThemedText style={styles.miniHeaderSubtitle}>Find new music that matches your taste</ThemedText>
+        <ThemedText tone="muted" style={styles.miniHeaderSubtitle}>Find new music that matches your taste</ThemedText>
       </View>
 
       {/* Discovery Filters */}
       <View style={styles.filtersSection}>
         <ThemedText style={styles.sectionTitle}>Discovery Filters</ThemedText>
         <View style={styles.filtersRow}>
-          <TouchableOpacity style={styles.filterChip}>
-            <ThemedText style={styles.filterText}>For You</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterChip}>
-            <ThemedText style={styles.filterText}>New & Noteworthy</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterChip}>
-            <ThemedText style={styles.filterText}>Trending</ThemedText>
-          </TouchableOpacity>
+          <ThemedSurface withBorder style={styles.filterChip}><ThemedText style={styles.filterText}>For You</ThemedText></ThemedSurface>
+          <ThemedSurface withBorder style={styles.filterChip}><ThemedText style={styles.filterText}>New & Noteworthy</ThemedText></ThemedSurface>
+          <ThemedSurface withBorder style={styles.filterChip}><ThemedText style={styles.filterText}>Trending</ThemedText></ThemedSurface>
         </View>
       </View>
 
@@ -116,7 +113,7 @@ export default function ComponentShowcase() {
       <View style={styles.trendingSection}>
         <ThemedText style={styles.sectionTitle}>Trending Now</ThemedText>
         <View style={styles.trendingList}>
-          <TouchableOpacity style={styles.trendingItem}>
+          <ThemedSurface style={styles.trendingItem} variant="card">
             <View style={styles.trendingNumber}>
               <ThemedText style={styles.trendingNumberText}>1</ThemedText>
             </View>
@@ -129,8 +126,8 @@ export default function ComponentShowcase() {
               <ThemedText style={styles.trendingArtist}>Kanye West</ThemedText>
             </View>
             <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.trendingItem}>
+          </ThemedSurface>
+          <ThemedSurface style={styles.trendingItem} variant="card">
             <View style={styles.trendingNumber}>
               <ThemedText style={styles.trendingNumberText}>2</ThemedText>
             </View>
@@ -143,8 +140,8 @@ export default function ComponentShowcase() {
               <ThemedText style={styles.trendingArtist}>My Chemical Romance</ThemedText>
             </View>
             <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.trendingItem}>
+          </ThemedSurface>
+          <ThemedSurface style={styles.trendingItem} variant="card">
             <View style={styles.trendingNumber}>
               <ThemedText style={styles.trendingNumberText}>3</ThemedText>
             </View>
@@ -157,7 +154,7 @@ export default function ComponentShowcase() {
               <ThemedText style={styles.trendingArtist}>Joji</ThemedText>
             </View>
             <Ionicons name="ellipsis-horizontal" size={20} color="#B3B3B3" />
-          </TouchableOpacity>
+          </ThemedSurface>
         </View>
       </View>
 
@@ -192,45 +189,39 @@ export default function ComponentShowcase() {
       <View style={styles.genreSection}>
         <ThemedText style={styles.sectionTitle}>Search by Genre</ThemedText>
         <View style={styles.genreGrid}>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#1DB954" }]}>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#1DB954" }]}>
             <ThemedText style={styles.genreTitle}>Hip Hop</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#E22134" }]}>
+          </ThemedSurface>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#E22134" }]}>
             <ThemedText style={styles.genreTitle}>Rock</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#FF6B35" }]}>
+          </ThemedSurface>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#FF6B35" }]}>
             <ThemedText style={styles.genreTitle}>Pop</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#8E44AD" }]}>
+          </ThemedSurface>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#8E44AD" }]}>
             <ThemedText style={styles.genreTitle}>Electronic</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#F39C12" }]}>
+          </ThemedSurface>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#F39C12" }]}>
             <ThemedText style={styles.genreTitle}>Jazz</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.genreCard, { backgroundColor: "#2ECC71" }]}>
+          </ThemedSurface>
+          <ThemedSurface style={[styles.genreCard, { backgroundColor: "#2ECC71" }]}>
             <ThemedText style={styles.genreTitle}>Alternative</ThemedText>
-          </TouchableOpacity>
+          </ThemedSurface>
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000000",
-  },
+  container: { flex: 1 },
+  scroll: { flex: 1 },
   contentContainer: {
     flexGrow: 1,
     paddingBottom: 40,
   },
-  miniHeader: {
-    paddingTop: 60,
-    paddingHorizontal: 24,
-    paddingBottom: 24,
-    backgroundColor: "#000000",
-  },
+  miniHeader: { paddingTop: 60, paddingHorizontal: 24, paddingBottom: 24 },
   miniHeaderText: {
     color: "#1DB954",
     fontSize: 16,
@@ -257,14 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
   },
-  filterChip: {
-    backgroundColor: "#121212",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "#282828",
-  },
+  filterChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20 },
   filterText: {
     color: "#FFFFFF",
     fontSize: 14,
@@ -316,13 +300,7 @@ const styles = StyleSheet.create({
   trendingList: {
     gap: 12,
   },
-  trendingItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#121212",
-    borderRadius: 8,
-    padding: 12,
-  },
+  trendingItem: { flexDirection: "row", alignItems: "center", borderRadius: 8, padding: 12 },
   trendingNumber: {
     width: 24,
     height: 24,
